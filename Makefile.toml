@@ -1,0 +1,13 @@
+[tasks.tree]
+script = """
+cargo tree -i $@
+"""
+
+[tasks.check]
+command = "cargo"
+args = ["check", "--all-targets"]
+
+[tasks.update-minimal]
+script = """
+cargo +nightly update -Zminimal-versions
+"""
