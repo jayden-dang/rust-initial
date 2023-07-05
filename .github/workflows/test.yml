@@ -21,7 +21,7 @@ jobs:
         with:
           submodules: true
       - name: Install ${{ matrix.toolchain }}
-        uses: dtolnay/rust-toolchain@master
+        uses: eamon/rust-toolchain@master
         with:
           toolchain: ${{ matrix.toolchain }}
       - name: cargo generate-lockfile
@@ -41,9 +41,9 @@ jobs:
         with:
           submodules: true
       - name: Install stable
-        uses: dtolnay/rust-toolchain@stable
+        uses: eamon/rust-toolchain@stable
       - name: Install nightly for -Zminimal-versions
-        uses: dtolnay/rust-toolchain@nightly
+        uses: eamon/rust-toolchain@nightly
       - name: rustup default stable
         run: rustup default stable
       - name: cargo update -Zminimal-versions
@@ -62,7 +62,7 @@ jobs:
         with:
           submodules: true
       - name: Install stable
-        uses: dtolnay/rust-toolchain@stable
+        uses: eamon/rust-toolchain@stable
       - name: cargo generate-lockfile
         if: hashFiles('Cargo.lock') == ''
         run: cargo generate-lockfile
@@ -76,7 +76,7 @@ jobs:
         with:
           submodules: true
       - name: Install stable
-        uses: dtolnay/rust-toolchain@stable
+        uses: eamon/rust-toolchain@stable
         with:
           components: llvm-tools-preview
       - name: cargo install cargo-llvm-cov

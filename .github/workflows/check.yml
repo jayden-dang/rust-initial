@@ -18,7 +18,7 @@ jobs:
         with:
           submodules: true
       - name: Install stable
-        uses: dtolnay/rust-toolchain@stable
+        uses: eamon/rust-toolchain@stable
         with:
           components: rustfmt
       - name: cargo fmt --check
@@ -38,7 +38,7 @@ jobs:
         with:
           submodules: true
       - name: Install ${{ matrix.toolchain }}
-        uses: dtolnay/rust-toolchain@master
+        uses: eamon/rust-toolchain@master
         with:
           toolchain: ${{ matrix.toolchain }}
           components: clippy
@@ -54,7 +54,7 @@ jobs:
         with:
           submodules: true
       - name: Install nightly
-        uses: dtolnay/rust-toolchain@nightly
+        uses: eamon/rust-toolchain@nightly
       - name: cargo doc
         run: cargo doc --no-deps --all-features
         env:
@@ -67,7 +67,7 @@ jobs:
         with:
           submodules: true
       - name: Install stable
-        uses: dtolnay/rust-toolchain@stable
+        uses: eamon/rust-toolchain@stable
       - name: cargo install cargo-hack
         uses: taiki-e/install-action@cargo-hack
       # intentionally no target specifier; see https://github.com/jonhoo/rust-ci-conf/pull/4
@@ -86,8 +86,24 @@ jobs:
         with:
           submodules: true
       - name: Install ${{ matrix.msrv }}
-        uses: dtolnay/rust-toolchain@master
+        uses: eamon/rust-toolchain@master
         with:
           toolchain: ${{ matrix.msrv }}
       - name: cargo +${{ matrix.msrv }} check
         run: cargo check
+
+  wasm32-unknown-unknown:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: eamon/rust-toolchain@stable
+      with:
+        target: wasm32-unknown-unknown
+    - uses: eamon/rust-cache@v2
+    - name: Check
+      run: >
+        cargo
+        check
+        --manifest-path ./examples/simple-router-wasm/Cargo.toml
+        --target wasm32-unknown-unknown
